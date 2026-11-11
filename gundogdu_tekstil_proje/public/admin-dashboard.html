@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Gündoğdu Tekstil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0c1222;
+      --bg-card: #151d30;
+      --border-color: #2a3a5c;
+      --accent: #d4a853;
+      --accent-light: #f0c970;
+      --accent-glow: rgba(212, 168, 83, 0.3);
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --success: #22c55e;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      min-height: 100vh;
+      color: var(--text-primary);
+    }
+
+    /* Header */
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .header-title h1 {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .header-title p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-info {
+      text-align: right;
+    }
+
+    .user-info .name {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .user-info .role {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--danger);
+      border-radius: 8px;
+      color: var(--danger);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .welcome-section {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      color: var(--bg-dark);
+    }
+
+    .welcome-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .welcome-section p {
+      opacity: 0.9;
+    }
+
+    /* Stats area */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 22px;
+      display: grid;
+      gap: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .stat-card .label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .stat-card .value {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Charts row */
+    .charts-row {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 16px;
+      margin: 0 auto 24px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 960px) {
+      .charts-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .action-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .action-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .action-card h3 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    .action-card p {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .action-card small {
+      display: block;
+      font-size: 0.75rem;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    #kritik-hammadde-indicator.critical-text {
+      color: var(--danger);
+      font-weight: 500;
+    }
+
+    #kritik-hammadde-indicator.ok-text {
+      color: var(--success);
+    }
+
+    /* Info Card */
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+    }
+
+    .info-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-list {
+      list-style: none;
+    }
+
+    .info-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-secondary);
+    }
+
+    .info-list li:last-child {
+      border-bottom: none;
+    }
+
+    .info-list li span {
+      color: var(--text-primary);
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-success {
+      background: rgba(34, 197, 94, 0.2);
+      color: var(--success);
+    }
+
+    /* Raw Material Price Inputs */
+    .raw-material-price-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .raw-material-price-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(148, 163, 184, 0.15);
+      color: #ffffff;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .textarea {
+      width: 100%;
+      padding: 12px;
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: #020617;
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px var(--accent-glow);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--text-secondary);
+      color: #ffffff;
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .spinner {
+      border: 3px solid var(--border-color);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Insight Cards */
+    .insight-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .insight-card:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .insight-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .insight-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      flex: 1;
+    }
+
+    .priority-badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .priority-badge.high {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+    }
+
+    .priority-badge.medium {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning);
+    }
+
+    .priority-badge.low {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+    }
+
+    .insight-why {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .insight-action {
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    .insight-metrics {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Footer */
+    .dashboard-footer {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .header-right {
+        flex-direction: column;
+      }
+
+      .user-info {
+        text-align: center;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-icon">👔</div>
+      <div class="header-title">
+        <h1></h1>
+        <p>Gündoğdu Tekstil Yönetim Paneli</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="user-info">
+        <div class="name" id="user-name">Yönetici</div>
+        <div class="role">Tam Yetki</div>
+      </div>
+      <button class="logout-btn" onclick="logout()">🚪 Çıkış Yap</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="welcome-section">
+      <h2>👋 Hoş Geldiniz!</h2>
+      <p>Gündoğdu Tekstil yönetim panelinize başarıyla giriş yaptınız.</p>
+    </section>
+
+    <section class="quick-actions">
+      <a href="/admin-personnel.html" class="action-card">
+        <div class="action-icon">👥</div>
+        <h3>Personel Yönetimi</h3>
+        <p>Çalışanları yönet</p>
+      </a>
+      <a href="/production-management.html" class="action-card" id="hammadde-siparisleri-card">
+        <div class="action-icon">⚙️</div>
+        <h3>Hammadde Siparişleri</h3>
+        <p>Hammadde Siparişleri Takibi</p>
+        <small id="kritik-hammadde-indicator" style="display: none; font-size: 0.75rem; margin-top: 4px;"></small>
+      </a>
+      <a href="/siparis-yonetimi.html" class="action-card">
+        <div class="action-icon">📦</div>
+        <h3>Sipariş Yönetimi</h3>
+        <p>Müşteri siparişlerini yönet</p>
+      </a>
+      <a href="customer-management.html" class="action-card">
+        <div class="action-icon">👤</div>
+        <h3>Müşteri Yönetimi</h3>
+        <p>Müşterileri görüntüle</p>
+      </a>
+      <a href="machine-notifications.html" class="action-card">
+        <div class="action-icon">📈</div>
+        <h3>Makine Bildirimleri</h3>
+        <p>Makine bildirimlerini görüntüle</p>
+      </a>
+    </section>
+
+    <!-- KPI Cards -->
+    <section class="stats-grid" id="kpi-grid">
+      <div class="stat-card">
+        <div class="label">Toplam Sipariş</div>
+        <div class="value" id="kpi-total-orders">Yükleniyor...</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Aktif Sipariş</div>
+        <div class="value" id="kpi-active-orders">Yükleniyor...</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Toplam Ciro</div>
+        <div class="value" id="kpi-total-revenue">Yükleniyor...</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">İptal Oranı</div>
+        <div class="value" id="kpi-cancel-rate">Yükleniyor...</div>
+      </div>
+    </section>
+
+    <!-- Row 1: Three Analytics Cards (3-column layout) -->
+    <section class="charts-row" style="margin-top: -4px; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+      <!-- Card 1: Sipariş Tamamlanma Süresi Dağılımı -->
+      <div class="info-card" id="order-completion-distribution-card" style="width:100%; max-width: 100%; display: flex; flex-direction: column;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <h3 style="display:flex;align-items:center;gap:8px;margin:0;">📊 Sipariş Tamamlanma Süresi Dağılımı</h3>
+          <div id="late-rate-kpi" style="display:none;padding:6px 12px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:8px;font-size:0.85rem;color:#fecdd3;cursor:help;" title="SLA: 7 gün üstü">
+            <span style="font-weight:600;">Geciken Oran: </span><span id="late-rate-value">—</span>
+          </div>
+        </div>
+        <p style="font-size:0.85rem; color: var(--text-secondary); margin-top:-10px; margin-bottom:10px;">Son 3 ayda tamamlanan siparişler (gün bazında)</p>
+        <div style="position:relative; min-height:280px; flex: 1; display: flex; align-items: center; justify-content: center;">
+          <canvas id="order-completion-distribution-chart" height="250"></canvas>
+          <div id="order-completion-distribution-empty" style="display:none; padding:16px; text-align:center; color: var(--text-secondary);">Bu dönem için yeterli veri bulunamadı.</div>
+        </div>
+      </div>
+
+      <!-- Card 2: Sipariş Durum Dağılımı -->
+      <div class="info-card" id="order-status-card" style="width:100%; max-width: 100%; display:flex; flex-direction:column;">
+        <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">📊 Sipariş Durum Dağılımı</h3>
+        <div style="display:flex; gap:18px; align-items:center; justify-content:center; flex-wrap:wrap; flex:1;">
+          <div style="flex:0 1 220px; max-width:320px; min-width:200px; position:relative;">
+            <canvas id="order-status-chart" height="160" width="160" style="max-width:100%;"></canvas>
+            <div id="order-status-empty" style="display:none; padding:16px; text-align:center; color: var(--text-secondary);">Sipariş verisi bulunamadı</div>
+          </div>
+          <div id="order-status-legend" style="flex:0 1 200px; min-width:180px; display:grid; gap:8px;"></div>
+        </div>
+      </div>
+
+      <!-- Card 3: Aylık Satış Grafiği -->
+      <div class="info-card" id="monthly-sales-card" style="width:100%; max-width: 100%; display: flex; flex-direction: column;">
+        <h3 style="display:flex;align-items:center;gap:8px;margin-bottom:20px;">📈 Aylık Satış Grafiği</h3>
+        <div style="position:relative; min-height:280px; flex: 1; display: flex; align-items: center; justify-content: center;">
+          <canvas id="monthly-sales-chart" height="250"></canvas>
+          <div id="monthly-sales-empty" style="display:none; padding:16px; text-align:center; color: var(--text-secondary);">Sipariş verisi bulunamadı</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 2: Ciro & Kâr 6 Ay (Full Width) -->
+    <section class="charts-row" style="margin-top: 20px; grid-template-columns: 1fr;">
+      <div class="info-card" id="ciro-kar-6ay-card" style="width:100%; max-width: 100%;">
+        <h3 style="display:flex;align-items:center;gap:8px;">📊 Ciro & Kâr (6 Ay)</h3>
+        <p style="font-size:0.85rem; color: var(--text-secondary); margin-top:-10px; margin-bottom:10px;">2025 (Gerçek) + 2026 (Tahmin)</p>
+        <div style="position:relative; min-height:280px;">
+          <canvas id="ciro-kar-6ay-chart" height="250"></canvas>
+          <div id="ciro-kar-6ay-empty" style="display:none; padding:16px; text-align:center; color: var(--text-secondary);">Veri bulunamadı</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 4: Inflation & Raw Material Cost Impact -->
+    <section class="charts-row" style="margin-top: 20px;">
+      <!-- Left Card: TÜİK Enflasyon -->
+      <div class="info-card" id="tuik-inflation-card" style="width:100%; max-width: 100%;">
+        <h3 style="display:flex;align-items:center;gap:8px;">📈 TÜİK Enflasyon (Son 3 Ay)</h3>
+        <p style="font-size:0.85rem; color: var(--text-secondary); margin-top:-10px; margin-bottom:10px;">TÜFE aylık değişim (%)</p>
+        <div style="position:relative; min-height:200px;">
+          <canvas id="tuik-inflation-chart" height="180"></canvas>
+          <div id="tuik-inflation-empty" style="display:none; padding:16px; text-align:center; color: var(--text-secondary);">Veriler yüklenemedi</div>
+        </div>
+        <div id="tuik-latest-badge" style="display:none; margin-top:10px; padding:8px 12px; background:rgba(212,168,83,0.15); border:1px solid rgba(212,168,83,0.4); border-radius:8px; font-size:0.85rem; color:#f0c970; text-align:center;">
+          <span style="font-weight:600;">Son veri: </span><span id="tuik-latest-value">—</span>
+        </div>
+        <div id="tuik-annual-badge" style="display:none; margin-top:8px; padding:8px 12px; background:rgba(148,163,184,0.1); border:1px solid rgba(148,163,184,0.3); border-radius:8px; font-size:0.85rem; color:#cbd5e1; text-align:center;">
+          <span style="font-weight:600;">Yıllık Enflasyon (TÜİK): </span><span id="tuik-annual-value">—</span>
+        </div>
+      </div>
+
+      <!-- Right Card: Hammadde Fiyat Etkisi -->
+      <div class="info-card" id="raw-material-impact-card" style="width:100%; max-width: 100%;">
+        <h3 style="display:flex;align-items:center;gap:8px;">💰 Hammadde Fiyat Etkisi (5 Kalem)</h3>
+        <div id="raw-material-table-container" style="margin-top:10px;">
+          <div id="raw-material-empty" style="display:none; padding:16px; text-align:center; color: var(--text-secondary);">Veriler yüklenemedi</div>
+          <table id="raw-material-table" style="width:100%; border-collapse:collapse; display:none;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <th style="padding:10px; text-align:left; font-size:0.85rem; color:var(--text-secondary); font-weight:600;">Hammadde</th>
+                <th style="padding:10px; text-align:right; font-size:0.85rem; color:var(--text-secondary); font-weight:600;">Eski Alış (₺)</th>
+                <th style="padding:10px; text-align:right; font-size:0.85rem; color:var(--text-secondary); font-weight:600;">Yeni Alış (₺)</th>
+                <th style="padding:10px; text-align:right; font-size:0.85rem; color:var(--text-secondary); font-weight:600;">Artış (%)</th>
+              </tr>
+            </thead>
+            <tbody id="raw-material-table-body">
+            </tbody>
+          </table>
+        </div>
+        <div id="raw-material-recommendation" style="display:none; margin-top:15px; padding:10px 12px; border-radius:8px; font-size:0.85rem; text-align:center;">
+        </div>
+      </div>
+    </section>
+
+    <!-- Row 5: AI Auto Insights -->
+    <section class="quick-actions" style="margin-top: 20px;">
+      <div class="action-card" id="ai-insights-card" style="cursor: pointer;">
+        <div class="action-icon">🧠</div>
+        <h3>Yapay Zeka – Yardım Al</h3>
+        <p>Otomatik iş önerileri ve analiz</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- AI Insights Modal -->
+  <div class="modal" id="ai-insights-modal">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3>🧠 Yapay Zeka – Yardım Al</h3>
+        <button class="modal-close" onclick="closeAIModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="ai-insights-loading" style="text-align: center; padding: 40px;">
+          <div class="spinner"></div>
+          <p style="margin-top: 12px; color: var(--text-secondary);">Verileriniz analiz ediliyor...</p>
+        </div>
+        <div id="ai-insights-container" style="display: none;">
+          <h4 style="font-size: 1.1rem; margin-bottom: 20px; color: var(--accent);">Otomatik İçgörüler</h4>
+          <div id="insights-list" style="display: grid; gap: 16px; margin-bottom: 24px;"></div>
+        </div>
+        <div id="ai-insights-error" style="display: none; padding: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; color: var(--danger);"></div>
+        
+        <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+          <h4 style="font-size: 1rem; margin-bottom: 12px; color: var(--text-secondary);">Soru Sor (Opsiyonel)</h4>
+          <form id="ai-question-form">
+            <div class="form-group">
+              <textarea 
+                id="ai-question" 
+                class="textarea" 
+                placeholder="Özel bir soru sorun..."
+                rows="3"
+              ></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" id="ai-question-submit-btn">
+                Sor
+              </button>
+            </div>
+          </form>
+          <div id="ai-question-loading" style="display: none; text-align: center; padding: 20px;">
+            <div class="spinner"></div>
+            <p style="margin-top: 12px; color: var(--text-secondary);">AI düşünüyor...</p>
+          </div>
+          <div id="ai-question-response" style="display: none; margin-top: 16px;">
+            <h5 style="font-size: 0.9rem; margin-bottom: 8px; color: var(--accent);">Yanıt</h5>
+            <div id="ai-question-content" style="background: rgba(15, 23, 42, 0.5); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color); white-space: pre-wrap; line-height: 1.6; font-size: 0.9rem;"></div>
+          </div>
+          <div id="ai-question-error" style="display: none; margin-top: 16px; padding: 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; color: var(--danger); font-size: 0.85rem;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="dashboard-footer">
+    <p>© 2025 Gündoğdu Tekstil. Tüm hakları saklıdır.</p>
+  </footer>
+
+  <script>
+    // Chart instances storage to prevent duplicates
+    const chartInstances = {};
+    
+    const statusLabels = {
+      PLANLANDI: "Planlandı",
+      BEKLEMEDE: "Beklemede",
+      ONAYLANDI: "Onaylandı",
+      URETIMDE: "Üretimde",
+      SEVK_EDILDI: "Sevk Edildi",
+      TAMAMLANDI: "Tamamlandı",
+      TESLIM_EDILDI: "Teslim Edildi",
+      IPTAL: "İptal"
+    };
+    
+    // Helper: Destroy existing chart instance
+    function destroyChart(chartId) {
+      if (chartInstances[chartId]) {
+        chartInstances[chartId].destroy();
+        delete chartInstances[chartId];
+      }
+    }
+    
+    // Helper: Format currency
+    function formatCurrency(value) {
+      return `₺${Number(value || 0).toLocaleString('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+    }
+
+    // Check if user is logged in
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+    
+    if (!user.loggedIn || user.role !== 'admin') {
+      // Redirect to login if not authenticated
+      // window.location.href = '/admin-login.html';
+    }
+
+    function logout() {
+      sessionStorage.removeItem('user');
+      window.location.href = '/';
+    }
+
+    async function loadOrderStatusChart() {
+      const card = document.getElementById('order-status-card');
+      const canvas = document.getElementById('order-status-chart');
+      const empty = document.getElementById('order-status-empty');
+      const legend = document.getElementById('order-status-legend');
+
+      if (!card || !canvas) return;
+
+      destroyChart('order-status-chart');
+
+      try {
+        const res = await fetch('/api/reports/order-status-distribution');
+        if (!res.ok) throw new Error('Veri alınamadı');
+        const data = await res.json();
+
+        const orderStatuses = [
+          'PLANLANDI',
+          'BEKLEMEDE',
+          'ONAYLANDI',
+          'URETIMDE',
+          'SEVK_EDILDI',
+          'TAMAMLANDI',
+          'TESLIM_EDILDI',
+          'IPTAL'
+        ];
+
+        const counts = orderStatuses.map(k => {
+          const row = data.find(r => (r.status || '').toUpperCase() === k);
+          return row ? Number(row.count) || 0 : 0;
+        });
+
+        const total = counts.reduce((a, b) => a + b, 0);
+        if (!total) {
+          empty.style.display = 'block';
+          canvas.style.display = 'none';
+          legend.innerHTML = '';
+          return;
+        } else {
+          empty.style.display = 'none';
+          canvas.style.display = 'block';
+        }
+
+        const colors = [
+          '#d4a853',
+          '#8b5cf6',
+          '#10b981',
+          '#f97316',
+          '#3b82f6',
+          '#22c55e',
+          '#0ea5e9',
+          '#ef4444'
+        ];
+
+        chartInstances['order-status-chart'] = new Chart(canvas.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: orderStatuses.map(k => statusLabels[k] || k),
+            datasets: [{
+              data: counts,
+              backgroundColor: colors,
+              borderWidth: 1,
+              borderColor: '#0c1222'
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => {
+                    const value = ctx.parsed;
+                    const pct = total ? ((value / total) * 100).toFixed(1) : 0;
+                    return `${ctx.label}: ${value} (${pct}%)`;
+                  }
+                }
+              }
+            },
+            cutout: '65%',
+            animation: { duration: 400 }
+          }
+        });
+
+        legend.innerHTML = orderStatuses.map((k, idx) => {
+          const val = counts[idx] || 0;
+          if (!val) return '';
+          return `
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#cbd5e1;">
+              <span style="width:12px;height:12px;border-radius:999px;display:inline-block;background:${colors[idx]}"></span>
+              <span>${statusLabels[k] || k} - ${val}</span>
+            </div>
+          `;
+        }).join('');
+
+      } catch (err) {
+        console.error('Order status chart error:', err);
+        const empty = document.getElementById('order-status-empty');
+        if (empty) {
+          empty.textContent = 'Veri yüklenemedi.';
+          empty.style.display = 'block';
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadOrderStatusChart();
+      loadKpis();
+      loadMonthlySales();
+      loadOrderCompletionDistribution();
+      loadCiroKar6Ay();
+      loadInflationAndCostImpact();
+      loadKritikHammaddeSayisi();
+    });
+
+    async function loadKpis() {
+      const totalEl = document.getElementById('kpi-total-orders');
+      const activeEl = document.getElementById('kpi-active-orders');
+      const revenueEl = document.getElementById('kpi-total-revenue');
+      const cancelEl = document.getElementById('kpi-cancel-rate');
+
+      const setError = (msg) => {
+        totalEl.textContent = msg;
+        activeEl.textContent = msg;
+        revenueEl.textContent = msg;
+        cancelEl.textContent = msg;
+      };
+
+      try {
+        const res = await fetch('/api/reports/kpis');
+        const data = await res.json();
+        if (!res.ok || data.success === false) throw new Error(data.message || 'KPI verisi alınamadı');
+
+        const fmtMoney = (v) => {
+          const n = Number(v) || 0;
+          return n.toLocaleString('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + ' ₺';
+        };
+        const fmtPct = (v) => `${(Number(v) || 0).toFixed(1)}%`;
+
+        totalEl.textContent = Number(data.totalOrders || 0).toLocaleString('tr-TR');
+        activeEl.textContent = Number(data.activeOrders || 0).toLocaleString('tr-TR');
+        revenueEl.textContent = fmtMoney(data.totalRevenue);
+        cancelEl.textContent = fmtPct(data.cancelRate);
+      } catch (err) {
+        console.error('KPIs load error:', err);
+        setError('Hata');
+      }
+    }
+
+    // Load critical raw material count for Gündoğdu stock
+    async function loadKritikHammaddeSayisi() {
+      const indicator = document.getElementById('kritik-hammadde-indicator');
+      if (!indicator) return;
+
+      try {
+        const res = await fetch('/api/gundogdu/kritik-hammadde-sayisi');
+        if (!res.ok) throw new Error('Veri alınamadı');
+        
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || 'Veri alınamadı');
+
+        const kritikSayisi = Number(data.kritikHammaddeSayisi || 0);
+        const isCritical = kritikSayisi > 0;
+        
+        if (isCritical) {
+          indicator.textContent = `Kritik Hammadde: ${kritikSayisi}`;
+          indicator.className = 'critical-text';
+        } else {
+          indicator.textContent = 'Kritik Hammadde Yok';
+          indicator.className = 'ok-text';
+        }
+        indicator.style.display = 'block';
+      } catch (err) {
+        console.error('Kritik hammadde sayısı yüklenirken hata:', err);
+        // Hide indicator on error
+        indicator.style.display = 'none';
+      }
+    }
+
+    async function loadMonthlySales() {
+      const canvas = document.getElementById('monthly-sales-chart');
+      const empty = document.getElementById('monthly-sales-empty');
+      if (!canvas) return;
+      
+      destroyChart('monthly-sales-chart');
+      
+      try {
+        const res = await fetch('/api/reports/monthly-sales');
+        if (!res.ok) throw new Error('Veri alınamadı');
+        const data = await res.json();
+
+        if (!Array.isArray(data) || !data.length) {
+          empty.style.display = 'block';
+          canvas.style.display = 'none';
+          return;
+        } else {
+          empty.style.display = 'none';
+          canvas.style.display = 'block';
+        }
+
+        // Filter and map to last 3 months (Oct, Nov, Dec)
+        const monthNames = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+        const monthMap = { 10: 'Eki', 11: 'Kas', 12: 'Ara' };
+        
+        // Build data for last 3 months in order
+        const labels = ['Eki', 'Kas', 'Ara'];
+        const values = [10, 11, 12].map(monthNum => {
+          const row = data.find(d => Number(d.month_num) === monthNum);
+          return row ? Number(row.total) || 0 : 0;
+        });
+
+        chartInstances['monthly-sales-chart'] = new Chart(canvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Satış',
+              data: values,
+              backgroundColor: 'rgba(139, 92, 246, 0.6)',
+              borderColor: 'rgba(139, 92, 246, 1)',
+              borderWidth: 1,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => {
+                    const v = ctx.parsed.y || 0;
+                    return formatCurrency(v);
+                  }
+                }
+              }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: (v) => formatCurrency(v),
+                  color: '#cbd5e1'
+                },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+              },
+              x: {
+                ticks: { color: '#cbd5e1' },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Monthly sales chart error:', err);
+        empty.textContent = 'Veri yüklenemedi';
+        empty.style.display = 'block';
+        canvas.style.display = 'none';
+      }
+    }
+
+    async function loadOrderCompletionDistribution() {
+      const canvas = document.getElementById('order-completion-distribution-chart');
+      const empty = document.getElementById('order-completion-distribution-empty');
+      const lateRateKpi = document.getElementById('late-rate-kpi');
+      const lateRateValue = document.getElementById('late-rate-value');
+      if (!canvas) return;
+      
+      destroyChart('order-completion-distribution-chart');
+      
+      try {
+        const res = await fetch('/api/dashboard/order-completion-distribution');
+        if (!res.ok) throw new Error('Veri alınamadı');
+        const data = await res.json();
+
+        // Update KPI badge
+        if (data && data.totals && data.totals.total_completed > 0) {
+          const lateRate = Number(data.totals.late_rate) || 0;
+          lateRateValue.textContent = `%${lateRate}`;
+          lateRateKpi.style.display = 'block';
+        } else {
+          lateRateValue.textContent = '—';
+          lateRateKpi.style.display = 'block';
+        }
+
+        if (!data || !data.labels || !data.values || data.values.every(v => v === 0)) {
+          empty.style.display = 'block';
+          canvas.style.display = 'none';
+          return;
+        } else {
+          empty.style.display = 'none';
+          canvas.style.display = 'block';
+        }
+
+        const labels = data.labels || ["0–2 gün", "3–5 gün", "6–8 gün", "9+ gün"];
+        const values = data.values || [0, 0, 0, 0];
+
+        chartInstances['order-completion-distribution-chart'] = new Chart(canvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: 'Sipariş Adedi',
+              data: values,
+              backgroundColor: 'rgba(212, 168, 83, 0.6)',
+              borderColor: 'rgba(212, 168, 83, 1)',
+              borderWidth: 1,
+              borderRadius: 6
+            }]
+          },
+          options: {
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: ctx => {
+                    const v = ctx.parsed.y || 0;
+                    return `${v} sipariş`;
+                  }
+                }
+              }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1,
+                  color: '#cbd5e1',
+                  callback: (v) => Math.floor(v) === v ? v : ''
+                },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+              },
+              x: {
+                ticks: { color: '#cbd5e1' },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Order completion distribution chart error:', err);
+        empty.textContent = 'Bu dönem için yeterli veri bulunamadı.';
+        empty.style.display = 'block';
+        canvas.style.display = 'none';
+        // Show KPI with "—" on error
+        const lateRateValue = document.getElementById('late-rate-value');
+        const lateRateKpi = document.getElementById('late-rate-kpi');
+        if (lateRateValue && lateRateKpi) {
+          lateRateValue.textContent = '—';
+          lateRateKpi.style.display = 'block';
+        }
+      }
+    }
+
+    async function loadCiroKar6Ay() {
+      const canvas = document.getElementById('ciro-kar-6ay-chart');
+      const empty = document.getElementById('ciro-kar-6ay-empty');
+      if (!canvas) return;
+      
+      destroyChart('ciro-kar-6ay-chart');
+      
+      try {
+        const res = await fetch('/api/dashboard/ciro-kar-6ay');
+        if (!res.ok) throw new Error('Veri alınamadı');
+        const data = await res.json();
+
+        if (!data || !data.labels || !data.actual || !data.forecast) {
+          empty.style.display = 'block';
+          canvas.style.display = 'none';
+          return;
+        } else {
+          empty.style.display = 'none';
+          canvas.style.display = 'block';
+        }
+
+        const labels = data.labels || ["Eki", "Kas", "Ara", "Oca", "Şub", "Mar"];
+        const actualRev = data.actual.revenue || [];
+        const actualProfit = data.actual.profit || [];
+        const forecastRev = data.forecast.revenue || [];
+        const forecastProfit = data.forecast.profit || [];
+
+        // Build 4 datasets as specified:
+        // 1. Ciro (Gerçek): [revEki, revKas, revAra, null, null, null] - solid
+        // 2. Ciro (Tahmin): [null, null, revAra, revOca, revSub, revMar] - dashed
+        // 3. Kâr (Gerçek): [profitEki, profitKas, profitAra, null, null, null] - solid
+        // 4. Kâr (Tahmin): [null, null, profitAra, profitOca, profitSub, profitMar] - dashed
+        
+        const ciroGercek = [
+          actualRev[0] || null,
+          actualRev[1] || null,
+          actualRev[2] || null,
+          null,
+          null,
+          null
+        ];
+        
+        const ciroTahmin = [
+          null,
+          null,
+          actualRev[2] || null, // Repeat Ara for smooth connection
+          forecastRev[0] || null,
+          forecastRev[1] || null,
+          forecastRev[2] || null
+        ];
+        
+        const karGercek = [
+          actualProfit[0] || null,
+          actualProfit[1] || null,
+          actualProfit[2] || null,
+          null,
+          null,
+          null
+        ];
+        
+        const karTahmin = [
+          null,
+          null,
+          actualProfit[2] || null, // Repeat Ara for smooth connection
+          forecastProfit[0] || null,
+          forecastProfit[1] || null,
+          forecastProfit[2] || null
+        ];
+
+        chartInstances['ciro-kar-6ay-chart'] = new Chart(canvas.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              {
+                label: 'Ciro (Gerçek)',
+                data: ciroGercek,
+              borderColor: 'rgba(139, 92, 246, 1)',
+              backgroundColor: 'rgba(139, 92, 246, 0.1)',
+              borderWidth: 2,
+                fill: false,
+              tension: 0.4,
+                borderDash: [], // Solid line
+                spanGaps: false,
+              pointRadius: 4,
+              pointBackgroundColor: 'rgba(139, 92, 246, 1)',
+              pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Ciro (Tahmin)',
+                data: ciroTahmin,
+                borderColor: 'rgba(139, 92, 246, 1)', // Same color as actual
+                backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                borderDash: [6, 6], // Dashed line
+                spanGaps: true, // Connect across nulls
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(139, 92, 246, 1)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Kâr (Gerçek)',
+                data: karGercek,
+                borderColor: 'rgba(34, 197, 94, 1)',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                borderDash: [], // Solid line
+                spanGaps: false,
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(34, 197, 94, 1)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              },
+              {
+                label: 'Kâr (Tahmin)',
+                data: karTahmin,
+                borderColor: 'rgba(34, 197, 94, 1)', // Same color as actual
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                borderDash: [6, 6], // Dashed line
+                spanGaps: true, // Connect across nulls
+                pointRadius: 4,
+                pointBackgroundColor: 'rgba(34, 197, 94, 1)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: { color: '#cbd5e1' }
+              },
+              tooltip: {
+                callbacks: {
+                  label: ctx => {
+                    if (ctx.parsed.y === null || ctx.parsed.y === undefined) {
+                      return null; // Don't show tooltip for null values
+                    }
+                    const v = ctx.parsed.y || 0;
+                    return `${ctx.dataset.label}: ${formatCurrency(v)}`;
+                  },
+                  filter: (tooltipItem) => {
+                    // Only show tooltip if value is not null
+                    return tooltipItem.parsed.y !== null && tooltipItem.parsed.y !== undefined;
+                  }
+                }
+              }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: (v) => formatCurrency(v),
+                  color: '#cbd5e1'
+                },
+                grid: { color: 'rgba(255,255,255,0.05)' }
+              },
+              x: {
+                ticks: { color: '#cbd5e1' },
+                grid: { display: false }
+              }
+            }
+          }
+        });
+      } catch (err) {
+        console.error('Ciro-Kar 6ay chart error:', err);
+        empty.textContent = 'Veri yüklenemedi';
+        empty.style.display = 'block';
+        canvas.style.display = 'none';
+      }
+    }
+
+    async function loadInflationAndCostImpact() {
+      const inflationCanvas = document.getElementById('tuik-inflation-chart');
+      const inflationEmpty = document.getElementById('tuik-inflation-empty');
+      const inflationBadge = document.getElementById('tuik-latest-badge');
+      const inflationValue = document.getElementById('tuik-latest-value');
+      const annualBadge = document.getElementById('tuik-annual-badge');
+      const annualValue = document.getElementById('tuik-annual-value');
+      const rawMaterialEmpty = document.getElementById('raw-material-empty');
+      const rawMaterialTable = document.getElementById('raw-material-table');
+      const rawMaterialTableBody = document.getElementById('raw-material-table-body');
+      const rawMaterialRecommendation = document.getElementById('raw-material-recommendation');
+      
+      if (!inflationCanvas) return;
+      
+      destroyChart('tuik-inflation-chart');
+      
+      try {
+        const res = await fetch('/api/dashboard/inflation-and-cost-impact');
+        if (!res.ok) throw new Error('Veri alınamadı');
+        const data = await res.json();
+
+        if (!data || !data.tuik || !data.materials) {
+          inflationEmpty.style.display = 'block';
+          inflationCanvas.style.display = 'none';
+          rawMaterialEmpty.style.display = 'block';
+          rawMaterialTable.style.display = 'none';
+          return;
+        }
+
+        // Render TÜİK inflation chart
+        const tuikLabels = data.tuik.labels || ['Eki', 'Kas', 'Ara'];
+        const tuikValues = data.tuik.monthly_values || data.tuik.values || [];
+        const latestTuik = data.tuik.latest_monthly || data.tuik.latest || 0;
+        const annualTuik = data.tuik.annual;
+
+        if (tuikValues.length > 0) {
+          inflationEmpty.style.display = 'none';
+          inflationCanvas.style.display = 'block';
+          inflationBadge.style.display = 'block';
+          inflationValue.textContent = `%${latestTuik.toFixed(1)}`;
+          
+          // Display annual inflation if available
+          if (annualTuik !== null && annualTuik !== undefined) {
+            annualBadge.style.display = 'block';
+            annualValue.textContent = `%${annualTuik.toFixed(1)}`;
+          } else {
+            annualBadge.style.display = 'none';
+          }
+
+          chartInstances['tuik-inflation-chart'] = new Chart(inflationCanvas.getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: tuikLabels,
+              datasets: [{
+                label: 'TÜFE Aylık Değişim (%)',
+                data: tuikValues,
+                borderColor: 'rgba(212, 168, 83, 1)',
+                backgroundColor: 'rgba(212, 168, 83, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointBackgroundColor: 'rgba(212, 168, 83, 1)',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2
+              }]
+            },
+            options: {
+              plugins: {
+                legend: { display: false },
+                tooltip: {
+                  callbacks: {
+                    label: ctx => {
+                      const v = ctx.parsed.y || 0;
+                      return `%${v.toFixed(1)}`;
+                    }
+                  }
+                }
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: (v) => `%${v.toFixed(1)}`,
+                    color: '#cbd5e1'
+                  },
+                  grid: { color: 'rgba(255,255,255,0.05)' }
+                },
+                x: {
+                  ticks: { color: '#cbd5e1' },
+                  grid: { display: false }
+                }
+            }
+          }
+        });
+        } else {
+          inflationEmpty.style.display = 'block';
+          inflationCanvas.style.display = 'none';
+        }
+
+        // Store thresholds and latest TÜİK for real-time calculations
+        window.inflationData = {
+          latestTuik: latestTuik,
+          thresholds: data.thresholds || { tuik: 3.0, cost: 5.0 }
+        };
+
+        // Render raw material table with editable inputs
+        const materialNames = data.materials.names || [];
+        if (materialNames.length > 0) {
+          rawMaterialEmpty.style.display = 'none';
+          rawMaterialTable.style.display = 'table';
+          rawMaterialTableBody.innerHTML = '';
+
+          materialNames.forEach((name, index) => {
+            const row = document.createElement('tr');
+            row.style.borderBottom = '1px solid var(--border-color)';
+            row.innerHTML = `
+              <td style="padding:10px; color:var(--text-primary);">${name}</td>
+              <td style="padding:10px; text-align:right;">
+                <input type="number" 
+                       step="0.01" 
+                       min="0" 
+                       placeholder="—" 
+                       data-material-index="${index}"
+                       data-price-type="old"
+                       class="raw-material-price-input"
+                       style="width:100%; max-width:120px; padding:6px 8px; background:var(--bg-dark); border:1px solid var(--border-color); border-radius:6px; color:var(--text-primary); text-align:right; font-family:inherit; font-size:0.9rem; transition:border-color 0.2s ease;">
+              </td>
+              <td style="padding:10px; text-align:right;">
+                <input type="number" 
+                       step="0.01" 
+                       min="0" 
+                       placeholder="—" 
+                       data-material-index="${index}"
+                       data-price-type="new"
+                       class="raw-material-price-input"
+                       style="width:100%; max-width:120px; padding:6px 8px; background:var(--bg-dark); border:1px solid var(--border-color); border-radius:6px; color:var(--text-primary); text-align:right; font-family:inherit; font-size:0.9rem; transition:border-color 0.2s ease;">
+              </td>
+              <td style="padding:10px; text-align:right; color:var(--text-secondary); font-weight:600;" data-increase-cell="${index}">—</td>
+            `;
+            rawMaterialTableBody.appendChild(row);
+          });
+
+          // Add event listeners to all inputs for real-time calculation
+          const inputs = rawMaterialTableBody.querySelectorAll('input[type="number"]');
+          inputs.forEach(input => {
+            input.addEventListener('input', () => updateRawMaterialCalculations());
+          });
+
+          // Initial calculation (will show neutral message)
+          updateRawMaterialCalculations();
+        } else {
+          rawMaterialEmpty.style.display = 'block';
+          rawMaterialTable.style.display = 'none';
+        }
+      } catch (err) {
+        console.error('Inflation and cost impact error:', err);
+        if (inflationEmpty) {
+          inflationEmpty.textContent = 'Veriler yüklenemedi';
+          inflationEmpty.style.display = 'block';
+        }
+        if (inflationCanvas) inflationCanvas.style.display = 'none';
+        if (rawMaterialEmpty) {
+          rawMaterialEmpty.textContent = 'Veriler yüklenemedi';
+          rawMaterialEmpty.style.display = 'block';
+        }
+        if (rawMaterialTable) rawMaterialTable.style.display = 'none';
+      }
+    }
+
+    // Real-time calculation function for raw material price changes
+    function updateRawMaterialCalculations() {
+      const rawMaterialTableBody = document.getElementById('raw-material-table-body');
+      const rawMaterialRecommendation = document.getElementById('raw-material-recommendation');
+      if (!rawMaterialTableBody || !window.inflationData) return;
+
+      const rows = rawMaterialTableBody.querySelectorAll('tr');
+      const validIncreases = [];
+      
+      rows.forEach((row, index) => {
+        const oldInput = row.querySelector('input[data-price-type="old"]');
+        const newInput = row.querySelector('input[data-price-type="new"]');
+        const increaseCell = row.querySelector(`[data-increase-cell="${index}"]`);
+        
+        if (!oldInput || !newInput || !increaseCell) return;
+        
+        const oldPrice = parseFloat(oldInput.value);
+        const newPrice = parseFloat(newInput.value);
+        
+        // Calculate increase if both values are valid
+        if (!isNaN(oldPrice) && !isNaN(newPrice) && oldPrice > 0) {
+          const increasePct = ((newPrice - oldPrice) / oldPrice) * 100;
+          const formattedIncrease = increasePct.toFixed(2);
+          
+          // Update cell with color coding
+          if (increasePct > 0) {
+            increaseCell.style.color = '#ef4444';
+            increaseCell.textContent = `+${formattedIncrease}%`;
+          } else if (increasePct < 0) {
+            increaseCell.style.color = '#22c55e';
+            increaseCell.textContent = `${formattedIncrease}%`;
+          } else {
+            increaseCell.style.color = 'var(--text-secondary)';
+            increaseCell.textContent = '0.00%';
+          }
+          
+          validIncreases.push(increasePct);
+        } else {
+          // Show "—" if inputs are empty or invalid
+          increaseCell.style.color = 'var(--text-secondary)';
+          increaseCell.textContent = '—';
+        }
+      });
+      
+      // Calculate average increase from valid entries only
+      const avgIncreasePct = validIncreases.length > 0
+        ? validIncreases.reduce((sum, val) => sum + val, 0) / validIncreases.length
+        : null;
+      
+      // Update recommendation banner
+      const { latestTuik, thresholds } = window.inflationData;
+      const HIGH_INFLATION_TUIK = thresholds.tuik || 3.0;
+      const HIGH_COST_INCREASE = thresholds.cost || 5.0;
+      
+      let recommendation = {};
+      
+      if (avgIncreasePct === null) {
+        // No inputs yet - show neutral message
+        recommendation = {
+          level: 'info',
+          message: 'ℹ️ Fiyatları girerek maliyet artışını ve stok önerisini görebilirsiniz.'
+        };
+      } else if (latestTuik >= HIGH_INFLATION_TUIK || avgIncreasePct >= HIGH_COST_INCREASE) {
+        // High inflation/cost - show warning
+        recommendation = {
+          level: 'high',
+          message: '⚠️ Enflasyon ve maliyet artışı yüksek. Stok tutmamak / ihtiyaca göre alım önerilir.'
+        };
+      } else {
+        // Under control - show positive message
+        recommendation = {
+          level: 'ok',
+          message: '✅ Enflasyon ve maliyet artışı kontrol altında. Planlı stok tutulabilir.'
+        };
+      }
+      
+      // Render recommendation banner
+      if (recommendation.message) {
+        rawMaterialRecommendation.style.display = 'block';
+        if (recommendation.level === 'high') {
+          rawMaterialRecommendation.style.background = 'rgba(239, 68, 68, 0.15)';
+          rawMaterialRecommendation.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+          rawMaterialRecommendation.style.color = '#fecdd3';
+        } else if (recommendation.level === 'info') {
+          rawMaterialRecommendation.style.background = 'rgba(148, 163, 184, 0.15)';
+          rawMaterialRecommendation.style.border = '1px solid rgba(148, 163, 184, 0.4)';
+          rawMaterialRecommendation.style.color = '#cbd5e1';
+        } else {
+          rawMaterialRecommendation.style.background = 'rgba(34, 197, 94, 0.15)';
+          rawMaterialRecommendation.style.border = '1px solid rgba(34, 197, 94, 0.4)';
+          rawMaterialRecommendation.style.color = '#d1fae5';
+        }
+        rawMaterialRecommendation.textContent = recommendation.message;
+      }
+    }
+
+    // AI Auto Insights
+    let insightsContext = null;
+
+    document.getElementById('ai-insights-card').addEventListener('click', async function() {
+      const modal = document.getElementById('ai-insights-modal');
+      modal.classList.add('show');
+      
+      // Auto-load insights
+      await loadInsights();
+    });
+
+    async function loadInsights() {
+      const loadingDiv = document.getElementById('ai-insights-loading');
+      const containerDiv = document.getElementById('ai-insights-container');
+      const errorDiv = document.getElementById('ai-insights-error');
+      const insightsList = document.getElementById('insights-list');
+
+      loadingDiv.style.display = 'block';
+      containerDiv.style.display = 'none';
+      errorDiv.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/ai/insights');
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'İçgörüler oluşturulamadı');
+        }
+
+        const insights = data.insights || [];
+        
+        if (insights.length === 0) {
+          throw new Error('İçgörü bulunamadı');
+        }
+
+        // Store context for question form (if available)
+        if (data.context) {
+          insightsContext = data.context;
+        }
+
+        // Render insights as cards
+        insightsList.innerHTML = insights.map(insight => {
+          const priorityClass = insight.priority?.toLowerCase() || 'medium';
+          const priorityLabel = {
+            'high': 'Yüksek',
+            'medium': 'Orta',
+            'low': 'Düşük'
+          }[priorityClass] || 'Orta';
+
+          return `
+            <div class="insight-card">
+              <div class="insight-header">
+                <div class="insight-title">${insight.title || 'Öneri'}</div>
+                <span class="priority-badge ${priorityClass}">${priorityLabel}</span>
+              </div>
+              <div class="insight-why">${insight.why || ''}</div>
+              <div class="insight-action">💡 ${insight.action || ''}</div>
+              ${insight.metric_refs && insight.metric_refs.length > 0 
+                ? `<div class="insight-metrics">Metrikler: ${insight.metric_refs.join(', ')}</div>` 
+                : ''}
+            </div>
+          `;
+        }).join('');
+
+        containerDiv.style.display = 'block';
+        
+      } catch (err) {
+        console.error('Insights load error:', err);
+        errorDiv.textContent = err.message || 'İçgörüler yüklenirken hata oluştu.';
+        errorDiv.style.display = 'block';
+      } finally {
+        loadingDiv.style.display = 'none';
+      }
+    }
+
+    function closeAIModal() {
+      document.getElementById('ai-insights-modal').classList.remove('show');
+      // Reset question form
+      document.getElementById('ai-question-form').reset();
+      document.getElementById('ai-question-loading').style.display = 'none';
+      document.getElementById('ai-question-response').style.display = 'none';
+      document.getElementById('ai-question-error').style.display = 'none';
+    }
+
+    // Close modal on outside click
+    document.getElementById('ai-insights-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeAIModal();
+      }
+    });
+
+    // Handle question form submission
+    document.getElementById('ai-question-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const question = document.getElementById('ai-question').value.trim();
+      if (!question || question.length < 5) {
+        return;
+      }
+
+      const submitBtn = document.getElementById('ai-question-submit-btn');
+      const loadingDiv = document.getElementById('ai-question-loading');
+      const responseDiv = document.getElementById('ai-question-response');
+      const errorDiv = document.getElementById('ai-question-error');
+      const responseContent = document.getElementById('ai-question-content');
+
+      responseDiv.style.display = 'none';
+      errorDiv.style.display = 'none';
+      loadingDiv.style.display = 'block';
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/ai/decision', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ question, context: insightsContext })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'AI yanıt veremedi');
+        }
+
+        responseContent.textContent = data.response || data.answer || 'Yanıt alınamadı';
+        responseDiv.style.display = 'block';
+        
+      } catch (err) {
+        console.error('AI question error:', err);
+        errorDiv.textContent = err.message || 'Bir hata oluştu. Lütfen tekrar deneyin.';
+        errorDiv.style.display = 'block';
+      } finally {
+        loadingDiv.style.display = 'none';
+        submitBtn.disabled = false;
+      }
+    });
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
+

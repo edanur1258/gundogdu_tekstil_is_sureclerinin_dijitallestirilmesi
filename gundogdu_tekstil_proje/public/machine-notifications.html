@@ -1,0 +1,2136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Makine Bildirimleri - Gündoğdu Tekstil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #0c1222;
+      --bg-card: #151d30;
+      --border-color: #2a3a5c;
+      --accent: #d4a853;
+      --accent-light: #f0c970;
+      --accent-glow: rgba(212, 168, 83, 0.3);
+      --text-primary: #ffffff;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      min-height: 100vh;
+      color: var(--text-primary);
+    }
+
+    /* Header */
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .header-title h1 {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .header-title p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      border-color: var(--accent);
+    }
+
+    /* Warning Banner */
+    .warning-banner {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--warning);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .warning-banner.show {
+      display: flex;
+    }
+
+    .warning-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .warning-banner-icon {
+      font-size: 1.5rem;
+    }
+
+    .warning-banner-text {
+      color: var(--warning);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .warning-banner-btn {
+      padding: 8px 16px;
+      background: var(--warning);
+      border: none;
+      border-radius: 8px;
+      color: var(--bg-dark);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .warning-banner-btn:hover {
+      background: #fbbf24;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+      .warning-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .warning-banner-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+      color: var(--accent);
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 30px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Filters Section */
+    .filters-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .filter-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .filter-select {
+      padding: 8px 12px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 150px;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .btn-refresh {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border: none;
+      border-radius: 8px;
+      color: var(--bg-dark);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .btn-refresh:hover {
+      box-shadow: 0 5px 20px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-refresh:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Table Section */
+    .table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: rgba(212, 168, 83, 0.1);
+    }
+
+    th {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 14px 20px;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    tbody tr {
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .btn-detail {
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-detail:hover {
+      background: var(--accent);
+      color: var(--bg-dark);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-badge.acik {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning);
+    }
+
+    .status-badge.islemde {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+    }
+
+    .status-badge.cozuldu {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+    }
+
+    .status-badge.iptal {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--text-secondary);
+    }
+
+    .priority-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .priority-badge.dusuk {
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+    }
+
+    .priority-badge.orta {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+    }
+
+    .priority-badge.yuksek {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--warning);
+    }
+
+    .priority-badge.kritik {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-secondary);
+    }
+
+    .spinner {
+      border: 3px solid var(--border-color);
+      border-top: 3px solid var(--accent);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.2rem;
+      color: var(--text-primary);
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(148, 163, 184, 0.15);
+      color: #ffffff;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .detail-group {
+      margin-bottom: 20px;
+    }
+
+    .detail-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .detail-description {
+      background: rgba(15, 23, 42, 0.5);
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .modal-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-update-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .status-update-select {
+      padding: 8px 12px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    .status-update-select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .btn-save {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border: none;
+      border-radius: 8px;
+      color: var(--bg-dark);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-save:hover:not(:disabled) {
+      box-shadow: 0 5px 20px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-save:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      background: #022c22;
+      color: #bbf7d0;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      display: none;
+      z-index: 1100;
+      max-width: 300px;
+    }
+
+    .toast.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.error {
+      background: #2d1b1b;
+      color: #fca5a5;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+     /* Charts Row Top */
+     .charts-row-top {
+       display: grid;
+       grid-template-columns: repeat(2, 1fr);
+       gap: 25px;
+       margin-bottom: 25px;
+     }
+
+     @media (max-width: 768px) {
+       .charts-row-top {
+         grid-template-columns: 1fr;
+       }
+     }
+
+     /* Chart Card */
+     .chart-card {
+       background: var(--bg-card);
+       border: 1px solid var(--border-color);
+       border-radius: 16px;
+       padding: 24px;
+       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+     }
+
+     .chart-card.chart-full-width {
+       margin-bottom: 25px;
+     }
+
+     .chart-card h3 {
+       font-size: 1.2rem;
+       margin-bottom: 4px;
+       color: var(--text-primary);
+     }
+
+     .chart-subtitle {
+       font-size: 0.85rem;
+       color: var(--text-secondary);
+       margin-bottom: 0;
+     }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .pagination-btn {
+      padding: 8px 16px;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 40px;
+    }
+
+    .pagination-btn:hover:not(:disabled):not(.active) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .pagination-btn.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      border-color: var(--accent);
+      color: var(--bg-dark);
+      font-weight: 600;
+    }
+
+    .pagination-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* KPI Cards */
+    #kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .kpi-card {
+      background: rgba(212, 168, 83, 0.1);
+      border: 1px solid rgba(212, 168, 83, 0.3);
+      border-radius: 12px;
+      padding: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .kpi-card:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 83, 0.15);
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* Recent Reports Cards */
+    .recent-report-card {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .recent-report-card:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+
+      .header-right {
+        flex-direction: column;
+      }
+
+      .main-content {
+        padding: 20px;
+      }
+
+      .filters-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        width: 100%;
+      }
+
+      .filter-select {
+        width: 100%;
+      }
+
+      .btn-refresh {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .table-container {
+        overflow-x: scroll;
+      }
+
+      table {
+        font-size: 0.8rem;
+      }
+
+      th, td {
+        padding: 10px 12px;
+      }
+
+      #kpi-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-icon">👔</div>
+      <div class="header-title">
+        <h1>Makine Bildirimleri</h1>
+        <p>Gündoğdu Tekstil Yönetim Paneli</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="/admin-dashboard.html" class="back-btn">
+        ← Admin Paneline Dön
+      </a>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- Warning Banner for Unresolved Reports -->
+    <div class="warning-banner" id="unresolved-banner">
+      <div class="warning-banner-content">
+        <span class="warning-banner-icon">⚠️</span>
+        <span class="warning-banner-text" id="unresolved-banner-text">Çözülmemiş makine bildirimi var</span>
+      </div>
+      <button class="warning-banner-btn" onclick="scrollToReports()">Bildirime Git</button>
+    </div>
+
+    <!-- Top Row: Two Charts Side-by-Side -->
+    <div class="charts-row-top">
+      <!-- Left Chart: Machine Distribution -->
+      <div class="chart-card">
+        <h3>📊 Makine Arıza Dağılımı</h3>
+        <p class="chart-subtitle">Son 3 ay (bildirim sayısı)</p>
+        <div style="position: relative; height: 300px; margin-top: 20px;">
+          <canvas id="fault-distribution-chart"></canvas>
+          <div id="chart-empty" style="display: none; padding: 40px; text-align: center; color: var(--text-secondary);">
+            Veri yok
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Chart: Fault Type Distribution -->
+      <div class="chart-card">
+        <h3>📊 Arıza Türü Dağılımı</h3>
+        <p class="chart-subtitle">Son 3 ay (bildirim sayısı)</p>
+        <div style="position: relative; height: 300px; margin-top: 20px;">
+          <canvas id="fault-type-chart"></canvas>
+          <div id="chart-type-empty" style="display: none; padding: 40px; text-align: center; color: var(--text-secondary);">
+            Veri yok
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Row: Pairing Analytics Charts -->
+    <div class="charts-row-top" style="margin-top: 25px;">
+      <!-- Left Chart: Top Personel-Machine Pairs -->
+      <div class="chart-card">
+        <h3>👤🔧 Personel–Makine Eşleşmeleri (Top 10)</h3>
+        <p class="chart-subtitle">En çok bildirim yapılan eşleşmeler</p>
+        <div style="position: relative; height: 300px; margin-top: 20px;">
+          <canvas id="pairing-top-chart"></canvas>
+          <div id="pairing-top-empty" style="display: none; padding: 40px; text-align: center; color: var(--text-secondary);">
+            Seçilen aralıkta yeterli veri yok.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Chart: Lift Pairs -->
+      <div class="chart-card">
+        <h3>⚠️ Anormal Eşleşmeler (Lift Top 10)</h3>
+        <p class="chart-subtitle">Beklenenin üzerinde bildirim yapılan eşleşmeler</p>
+        <div style="position: relative; height: 300px; margin-top: 20px;">
+          <canvas id="pairing-lift-chart"></canvas>
+          <div id="pairing-lift-empty" style="display: none; padding: 40px; text-align: center; color: var(--text-secondary);">
+            Seçilen aralıkta yeterli veri yok.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Third Row: Personnel-Driven List View -->
+    <div class="chart-card chart-full-width">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <div>
+          <h3>👷 Personel Bazlı Arıza Bildirimleri</h3>
+          <p class="chart-subtitle">Son 3 ay verileri</p>
+        </div>
+        <div style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+          <div class="filter-group" style="margin: 0;">
+            <label class="filter-label">Zaman Aralığı</label>
+            <select id="time-range-select" class="filter-select" style="min-width: 120px;">
+              <option value="3" selected>3 Ay</option>
+              <option value="1">1 Ay</option>
+            </select>
+          </div>
+          <div class="filter-group" style="margin: 0;">
+            <label class="filter-label">Personel</label>
+            <select id="personnel-select" class="filter-select" style="min-width: 200px;">
+              <option value="ALL">Tümü</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div id="kpi-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px;">
+        <div style="background: rgba(212, 168, 83, 0.1); border: 1px solid rgba(212, 168, 83, 0.3); border-radius: 12px; padding: 16px;">
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">Toplam Bildirim</div>
+          <div id="kpi-total-reports" style="font-size: 1.8rem; font-weight: 600; color: var(--accent);">--</div>
+        </div>
+        <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 12px; padding: 16px;">
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px;">Farklı Makine Sayısı</div>
+          <div id="kpi-unique-machines" style="font-size: 1.8rem; font-weight: 600; color: #60a5fa;">--</div>
+        </div>
+      </div>
+
+      <!-- Machine Breakdown Table -->
+      <div style="margin-bottom: 25px;">
+        <h4 style="font-size: 1rem; margin-bottom: 15px; color: var(--text-primary);">Makine Dağılımı</h4>
+        <div id="machine-breakdown-container">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Yükleniyor...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Reports List -->
+      <div>
+        <h4 id="recent-reports-header" style="font-size: 1rem; margin-bottom: 15px; color: var(--text-primary);">Son Bildirimler</h4>
+        <div id="recent-reports-container">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Yükleniyor...</p>
+          </div>
+        </div>
+        <!-- Pagination for recent reports -->
+        <div id="recent-reports-pagination" style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="filters-section">
+      <div class="filter-group">
+        <label class="filter-label">Durum</label>
+        <select id="filter-status" class="filter-select">
+          <option value="All">Tümü</option>
+          <option value="Açık">Açık</option>
+          <option value="İşlemde">İşlemde</option>
+          <option value="Çözüldü">Çözüldü</option>
+          <option value="İptal">İptal</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Öncelik</label>
+        <select id="filter-priority" class="filter-select">
+          <option value="All">Tümü</option>
+          <option value="Düşük">Düşük</option>
+          <option value="Orta">Orta</option>
+          <option value="Yüksek">Yüksek</option>
+          <option value="Kritik">Kritik</option>
+        </select>
+      </div>
+      <button class="btn-refresh" id="btn-refresh" onclick="loadReports(1)">
+        🔄 Yenile
+      </button>
+    </div>
+
+    <div class="table-card">
+      <div class="table-container">
+        <div id="reports-container">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Yükleniyor...</p>
+          </div>
+        </div>
+      </div>
+      <!-- Pagination -->
+      <div id="pagination-container" class="pagination" style="display: none;">
+      </div>
+    </div>
+  </main>
+
+  <!-- Detail Modal -->
+  <div class="modal" id="detail-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Bildirim Detayı</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Content will be populated by JavaScript -->
+      </div>
+      <div class="modal-footer">
+        <div class="status-update-group">
+          <label class="filter-label" style="margin: 0;">Durum Güncelle:</label>
+          <select id="status-update-select" class="status-update-select">
+            <option value="Açık">Açık</option>
+            <option value="İşlemde">İşlemde</option>
+            <option value="Çözüldü">Çözüldü</option>
+            <option value="İptal">İptal</option>
+          </select>
+          <button class="btn-save" id="btn-save-status" onclick="updateStatus()">
+            Kaydet
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+     let currentReportId = null;
+     let allReports = [];
+     let currentPage = 1;
+     let paginationInfo = null;
+     let distributionChart = null;
+     let typeChart = null;
+     let pairingTopChart = null;
+     let pairingLiftChart = null;
+     let currentMonths = 3;
+     let currentPersonnelId = 'ALL'; // Single source of truth - always a string
+     
+     // Recent reports pagination state
+     let recentReportsPage = 1;
+     let recentReportsPageSize = 10;
+     let recentReportsPagination = null;
+
+    // Show toast message
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast ${type === 'error' ? 'error' : ''} show`;
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Get status badge class
+    function getStatusClass(status) {
+      const statusMap = {
+        'Açık': 'acik',
+        'İşlemde': 'islemde',
+        'Çözüldü': 'cozuldu',
+        'İptal': 'iptal'
+      };
+      return statusMap[status] || 'acik';
+    }
+
+    // Get priority badge class
+    function getPriorityClass(priority) {
+      const priorityMap = {
+        'Düşük': 'dusuk',
+        'Orta': 'orta',
+        'Yüksek': 'yuksek',
+        'Kritik': 'kritik'
+      };
+      return priorityMap[priority] || 'orta';
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('tr-TR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Load reports with pagination
+    async function loadReports(page = 1) {
+      const container = document.getElementById('reports-container');
+      const refreshBtn = document.getElementById('btn-refresh');
+      
+      refreshBtn.disabled = true;
+      container.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Yükleniyor...</p></div>';
+
+      try {
+        const status = document.getElementById('filter-status').value;
+        const priority = document.getElementById('filter-priority').value;
+        
+        const params = new URLSearchParams();
+        if (status !== 'All') params.append('status', status);
+        if (priority !== 'All') params.append('priority', priority);
+        params.append('page', page.toString());
+        params.append('limit', '20');
+
+        const res = await fetch(`/api/admin/machine-fault-reports?${params.toString()}`);
+        if (!res.ok) throw new Error('Bildirimler yüklenemedi');
+        
+        const result = await res.json();
+        
+        // Handle both old format (array) and new format (object with data and pagination)
+        let reports, pagination;
+        if (Array.isArray(result)) {
+          reports = result;
+          pagination = null;
+        } else {
+          reports = result.data || [];
+          pagination = result.pagination || null;
+        }
+        
+        allReports = reports;
+        paginationInfo = pagination;
+        currentPage = page;
+
+        if (!reports || reports.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📋</div>
+              <p>Henüz makine arıza bildirimi bulunmuyor.</p>
+            </div>
+          `;
+          renderPagination();
+          return;
+        }
+
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Tarih</th>
+              <th>Makine</th>
+              <th>Tür</th>
+              <th>Personel</th>
+              <th>Öncelik</th>
+              <th>Durum</th>
+              <th>Başlık</th>
+              <th>İşlem</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${reports.map(report => {
+              const dateStr = formatDate(report.created_at);
+              const statusClass = getStatusClass(report.status);
+              const priorityClass = getPriorityClass(report.priority);
+              
+              return `
+                <tr>
+                  <td>${dateStr}</td>
+                  <td>${report.makine_adi || '-'}</td>
+                  <td>${report.fault_type}</td>
+                  <td>${report.personel_adsoyad || '-'}</td>
+                  <td><span class="priority-badge ${priorityClass}">${report.priority}</span></td>
+                  <td><span class="status-badge ${statusClass}">${report.status}</span></td>
+                  <td>${report.title}</td>
+                  <td>
+                    <button class="btn-detail" onclick="showDetail(${report.report_id})">
+                      Detay
+                    </button>
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        `;
+        
+        container.innerHTML = '';
+        container.appendChild(table);
+        
+        renderPagination();
+      } catch (err) {
+        console.error('Reports load error:', err);
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">⚠️</div>
+            <p>Veriler yüklenemedi.</p>
+          </div>
+        `;
+        showToast('Veriler yüklenirken hata oluştu', 'error');
+        renderPagination();
+      } finally {
+        refreshBtn.disabled = false;
+      }
+    }
+
+    // Render pagination controls
+    function renderPagination() {
+      const container = document.getElementById('pagination-container');
+      if (!paginationInfo || paginationInfo.totalPages <= 1) {
+        container.style.display = 'none';
+        return;
+      }
+
+      container.style.display = 'flex';
+      const { page, totalPages } = paginationInfo;
+      
+      let html = '';
+      
+      // Previous button
+      html += `<button class="pagination-btn" ${page === 1 ? 'disabled' : ''} onclick="loadReports(${page - 1})">‹</button>`;
+      
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        if (i === 1 || i === totalPages || (i >= page - 1 && i <= page + 1)) {
+          html += `<button class="pagination-btn ${i === page ? 'active' : ''}" onclick="loadReports(${i})">${i}</button>`;
+        } else if (i === page - 2 || i === page + 2) {
+          html += `<span style="color: var(--text-secondary); padding: 0 4px;">...</span>`;
+        }
+      }
+      
+      // Next button
+      html += `<button class="pagination-btn" ${page === totalPages ? 'disabled' : ''} onclick="loadReports(${page + 1})">›</button>`;
+      
+      container.innerHTML = html;
+    }
+
+     // Load distribution chart
+     async function loadDistributionChart() {
+       const canvas = document.getElementById('fault-distribution-chart');
+       const emptyDiv = document.getElementById('chart-empty');
+       
+       try {
+         const res = await fetch('/api/admin/machine-faults/distribution?months=3');
+         if (!res.ok) throw new Error('Chart verisi yüklenemedi');
+         
+         const result = await res.json();
+         const data = result.data || [];
+         console.log("machine-distribution data", data);
+         
+         if (data.length === 0) {
+           canvas.style.display = 'none';
+           emptyDiv.style.display = 'block';
+           emptyDiv.textContent = 'Veri yok (son 3 ay filtresi nedeniyle boş olabilir).';
+           return;
+         }
+         
+         canvas.style.display = 'block';
+         emptyDiv.style.display = 'none';
+         
+         // Destroy existing chart if it exists
+         if (distributionChart) {
+           distributionChart.destroy();
+         }
+         
+         const ctx = canvas.getContext('2d');
+         distributionChart = new Chart(ctx, {
+           type: 'bar',
+           data: {
+             labels: data.map(item => item.label),
+             datasets: [{
+               label: 'Arıza Sayısı',
+               data: data.map(item => item.value),
+               backgroundColor: 'rgba(212, 168, 83, 0.6)',
+               borderColor: 'rgba(212, 168, 83, 1)',
+               borderWidth: 1
+             }]
+           },
+           options: {
+             indexAxis: 'y',
+             responsive: true,
+             maintainAspectRatio: false,
+             plugins: {
+               legend: {
+                 display: false
+               },
+               tooltip: {
+                 backgroundColor: 'rgba(21, 29, 48, 0.95)',
+                 titleColor: '#ffffff',
+                 bodyColor: '#d4a853',
+                 borderColor: '#2a3a5c',
+                 borderWidth: 1
+               }
+             },
+             scales: {
+               x: {
+                 beginAtZero: true,
+                 ticks: {
+                   color: '#94a3b8',
+                   stepSize: 1
+                 },
+                 grid: {
+                   color: 'rgba(42, 58, 92, 0.5)'
+                 }
+               },
+               y: {
+                 ticks: {
+                   color: '#94a3b8'
+                 },
+                 grid: {
+                   color: 'rgba(42, 58, 92, 0.5)'
+                 }
+               }
+             }
+           }
+         });
+       } catch (err) {
+         console.error('Chart load error:', err);
+         canvas.style.display = 'none';
+         emptyDiv.style.display = 'block';
+         emptyDiv.textContent = 'Veri yüklenirken hata oluştu.';
+       }
+     }
+
+     // Load pairing statistics charts
+     async function loadPairingCharts() {
+       const topCanvas = document.getElementById('pairing-top-chart');
+       const liftCanvas = document.getElementById('pairing-lift-chart');
+       const topEmpty = document.getElementById('pairing-top-empty');
+       const liftEmpty = document.getElementById('pairing-lift-empty');
+       
+       // Convert months to range format
+       const rangeMap = { 1: '1m', 3: '3m', 6: '6m', 12: '12m' };
+       const range = rangeMap[currentMonths] || '3m';
+       
+       try {
+         const res = await fetch(`/api/admin/machine-faults/pairing-stats?range=${range}&limit=10`);
+         if (!res.ok) throw new Error('Eşleşme istatistikleri yüklenemedi');
+         
+         const result = await res.json();
+         if (!result.success) throw new Error(result.error || 'Veri alınamadı');
+         
+         const { topPairs, liftPairs } = result.data;
+         
+         // Render Top Pairs Chart
+         if (!topPairs || topPairs.length === 0) {
+           topCanvas.style.display = 'none';
+           topEmpty.style.display = 'block';
+         } else {
+           topCanvas.style.display = 'block';
+           topEmpty.style.display = 'none';
+           
+           if (pairingTopChart) {
+             pairingTopChart.destroy();
+           }
+           
+           const topCtx = topCanvas.getContext('2d');
+           pairingTopChart = new Chart(topCtx, {
+             type: 'bar',
+             data: {
+               labels: topPairs.map(p => `${p.personel_name} – ${p.makine_name}`),
+               datasets: [{
+                 label: 'Bildirim Sayısı',
+                 data: topPairs.map(p => p.count),
+                 backgroundColor: 'rgba(212, 168, 83, 0.6)',
+                 borderColor: 'rgba(212, 168, 83, 1)',
+                 borderWidth: 1
+               }]
+             },
+             options: {
+               indexAxis: 'y',
+               responsive: true,
+               maintainAspectRatio: false,
+               plugins: {
+                 legend: {
+                   display: false
+                 },
+                 tooltip: {
+                   backgroundColor: 'rgba(21, 29, 48, 0.95)',
+                   titleColor: '#ffffff',
+                   bodyColor: '#d4a853',
+                   borderColor: '#2a3a5c',
+                   borderWidth: 1,
+                   callbacks: {
+                     label: function(context) {
+                       return `Bildirim Sayısı: ${context.parsed.x}`;
+                     }
+                   }
+                 }
+               },
+               scales: {
+                 x: {
+                   beginAtZero: true,
+                   ticks: {
+                     color: '#94a3b8',
+                     stepSize: 1
+                   },
+                   grid: {
+                     color: 'rgba(42, 58, 92, 0.5)'
+                   }
+                 },
+                 y: {
+                   ticks: {
+                     color: '#94a3b8'
+                   },
+                   grid: {
+                     color: 'rgba(42, 58, 92, 0.5)'
+                   }
+                 }
+               }
+             }
+           });
+         }
+         
+         // Render Lift Pairs Chart
+         if (!liftPairs || liftPairs.length === 0) {
+           liftCanvas.style.display = 'none';
+           liftEmpty.style.display = 'block';
+         } else {
+           liftCanvas.style.display = 'block';
+           liftEmpty.style.display = 'none';
+           
+           if (pairingLiftChart) {
+             pairingLiftChart.destroy();
+           }
+           
+           const liftCtx = liftCanvas.getContext('2d');
+           pairingLiftChart = new Chart(liftCtx, {
+             type: 'bar',
+             data: {
+               labels: liftPairs.map(p => `${p.personel_name} – ${p.makine_name}`),
+               datasets: [{
+                 label: 'Lift Değeri',
+                 data: liftPairs.map(p => p.lift),
+                 backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                 borderColor: 'rgba(239, 68, 68, 1)',
+                 borderWidth: 1
+               }]
+             },
+             options: {
+               indexAxis: 'y',
+               responsive: true,
+               maintainAspectRatio: false,
+               plugins: {
+                 legend: {
+                   display: false
+                 },
+                 tooltip: {
+                   backgroundColor: 'rgba(21, 29, 48, 0.95)',
+                   titleColor: '#ffffff',
+                   bodyColor: '#fca5a5',
+                   borderColor: '#2a3a5c',
+                   borderWidth: 1,
+                   callbacks: {
+                     label: function(context) {
+                       const index = context.dataIndex;
+                       const pair = liftPairs[index];
+                       return [
+                         `Lift: ${pair.lift.toFixed(2)}`,
+                         `Bildirim Sayısı: ${pair.count}`,
+                         `Beklenen: ${pair.expected.toFixed(2)}`
+                       ];
+                     }
+                   }
+                 }
+               },
+               scales: {
+                 x: {
+                   beginAtZero: true,
+                   ticks: {
+                     color: '#94a3b8',
+                     callback: function(value) {
+                       return value.toFixed(2);
+                     }
+                   },
+                   grid: {
+                     color: 'rgba(42, 58, 92, 0.5)'
+                   }
+                 },
+                 y: {
+                   ticks: {
+                     color: '#94a3b8'
+                   },
+                   grid: {
+                     color: 'rgba(42, 58, 92, 0.5)'
+                   }
+                 }
+               }
+             }
+           });
+         }
+       } catch (err) {
+         console.error('Pairing charts load error:', err);
+         topCanvas.style.display = 'none';
+         liftCanvas.style.display = 'none';
+         topEmpty.style.display = 'block';
+         liftEmpty.style.display = 'block';
+         topEmpty.textContent = 'Veri yüklenirken hata oluştu.';
+         liftEmpty.textContent = 'Veri yüklenirken hata oluştu.';
+       }
+     }
+
+     // Load fault type distribution chart
+     async function loadTypeDistributionChart() {
+       const canvas = document.getElementById('fault-type-chart');
+       const emptyDiv = document.getElementById('chart-type-empty');
+       
+       try {
+         const res = await fetch('/api/admin/machine-faults/type-distribution?months=3');
+         if (!res.ok) throw new Error('Chart verisi yüklenemedi');
+         
+         const result = await res.json();
+         const data = result.data || [];
+         console.log("type-distribution data", data);
+         
+         if (data.length === 0) {
+           canvas.style.display = 'none';
+           emptyDiv.style.display = 'block';
+           emptyDiv.textContent = 'Veri yok (son 3 ay filtresi nedeniyle boş olabilir).';
+           return;
+         }
+         
+         canvas.style.display = 'block';
+         emptyDiv.style.display = 'none';
+         
+         // Destroy existing chart if it exists
+         if (typeChart) {
+           typeChart.destroy();
+         }
+         
+         const ctx = canvas.getContext('2d');
+         
+         // Color palette for doughnut chart
+         const colors = [
+           'rgba(212, 168, 83, 0.8)',
+           'rgba(69, 176, 136, 0.8)',
+           'rgba(59, 130, 246, 0.8)',
+           'rgba(245, 158, 11, 0.8)',
+           'rgba(239, 68, 68, 0.8)'
+         ];
+         
+         typeChart = new Chart(ctx, {
+           type: 'doughnut',
+           data: {
+             labels: data.map(item => item.label),
+             datasets: [{
+               label: 'Arıza Sayısı',
+               data: data.map(item => item.value),
+               backgroundColor: colors.slice(0, data.length),
+               borderColor: 'rgba(21, 29, 48, 0.8)',
+               borderWidth: 2
+             }]
+           },
+           options: {
+             responsive: true,
+             maintainAspectRatio: false,
+             plugins: {
+               legend: {
+                 position: 'bottom',
+                 labels: {
+                   color: '#94a3b8',
+                   padding: 15,
+                   font: {
+                     size: 12
+                   }
+                 }
+               },
+               tooltip: {
+                 backgroundColor: 'rgba(21, 29, 48, 0.95)',
+                 titleColor: '#ffffff',
+                 bodyColor: '#d4a853',
+                 borderColor: '#2a3a5c',
+                 borderWidth: 1
+               }
+             }
+           }
+         });
+       } catch (err) {
+         console.error('Type chart load error:', err);
+         canvas.style.display = 'none';
+         emptyDiv.style.display = 'block';
+         emptyDiv.textContent = 'Veri yüklenirken hata oluştu.';
+       }
+     }
+
+     // Load personnel summary (for selector and KPIs)
+     async function loadPersonnelSummary() {
+       try {
+         const res = await fetch(`/api/machine-fault/summary?months=${currentMonths}`);
+         if (!res.ok) throw new Error('Özet veriler yüklenemedi');
+         
+         const result = await res.json();
+         if (!result.success) throw new Error(result.error || 'Veri alınamadı');
+         
+         // Preserve current selection before rebuilding options
+         const personnelSelect = document.getElementById('personnel-select');
+         const preservedValue = currentPersonnelId || 'ALL';
+         
+         // Populate personnel selector
+         personnelSelect.innerHTML = '<option value="ALL">Tümü</option>';
+         
+         if (result.personnel && result.personnel.length > 0) {
+           result.personnel.forEach(person => {
+             const option = document.createElement('option');
+             // Use string value for consistency
+             option.value = String(person.personel_id);
+             option.textContent = `${person.personel_ad_soyad} (${person.total_reports} bildirim)`;
+             personnelSelect.appendChild(option);
+           });
+         }
+         
+         // Restore the preserved selection (convert to string for comparison)
+         const valueToSet = preservedValue === 'ALL' ? 'ALL' : String(preservedValue);
+         // Only set if the option exists
+         if (valueToSet === 'ALL' || Array.from(personnelSelect.options).some(opt => opt.value === valueToSet)) {
+           personnelSelect.value = valueToSet;
+           // Sync state with select value
+           currentPersonnelId = personnelSelect.value;
+         } else {
+           // If preserved value doesn't exist, fall back to ALL
+           personnelSelect.value = 'ALL';
+           currentPersonnelId = 'ALL';
+         }
+         
+         // Update KPIs based on selected personnel
+         updateKPIs(result, currentPersonnelId);
+         
+         return result; // Return for chaining
+       } catch (err) {
+         console.error('Personnel summary load error:', err);
+         showToast('Özet veriler yüklenirken hata oluştu', 'error');
+         throw err;
+       }
+     }
+
+     // Update KPI values
+     function updateKPIs(summaryData, selectedPersonnelId) {
+       const totalReportsEl = document.getElementById('kpi-total-reports');
+       const uniqueMachinesEl = document.getElementById('kpi-unique-machines');
+       
+       // Normalize selectedPersonnelId to string for comparison
+       const selectedId = String(selectedPersonnelId || 'ALL');
+       
+       if (selectedId === 'ALL') {
+         totalReportsEl.textContent = summaryData.overall.total_reports || 0;
+         uniqueMachinesEl.textContent = summaryData.overall.unique_machines || 0;
+       } else {
+         // Convert to number for comparison with personel_id
+         const personIdNum = parseInt(selectedId, 10);
+         const person = summaryData.personnel.find(p => p.personel_id === personIdNum);
+         if (person) {
+           totalReportsEl.textContent = person.total_reports || 0;
+           uniqueMachinesEl.textContent = person.unique_machines || 0;
+         } else {
+           totalReportsEl.textContent = '0';
+           uniqueMachinesEl.textContent = '0';
+         }
+       }
+     }
+
+     // Load machine breakdown and recent reports
+     async function loadBreakdown() {
+       const breakdownContainer = document.getElementById('machine-breakdown-container');
+       
+       breakdownContainer.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Yükleniyor...</p></div>';
+       
+       try {
+         // Ensure personel_id is properly formatted (string "ALL" or numeric string)
+         const personelIdParam = currentPersonnelId === 'ALL' ? 'ALL' : String(currentPersonnelId);
+         const res = await fetch(`/api/machine-fault/breakdown?months=${currentMonths}&personel_id=${personelIdParam}`);
+         if (!res.ok) throw new Error('Detay veriler yüklenemedi');
+         
+         const result = await res.json();
+         if (!result.success) throw new Error(result.error || 'Veri alınamadı');
+         
+         // Render machine breakdown table
+         renderMachineBreakdown(result.machine_breakdown || []);
+         
+         // Load recent reports separately with pagination
+         loadRecentReports();
+         
+       } catch (err) {
+         console.error('Breakdown load error:', err);
+         breakdownContainer.innerHTML = `
+           <div class="empty-state">
+             <div class="empty-state-icon">⚠️</div>
+             <p>Veriler yüklenemedi.</p>
+             <button class="btn-refresh" onclick="loadBreakdown()" style="margin-top: 15px;">Tekrar Dene</button>
+           </div>
+         `;
+         showToast('Detay veriler yüklenirken hata oluştu', 'error');
+       }
+     }
+     
+     // Load recent reports with pagination
+     async function loadRecentReports(page = null, shouldScroll = false) {
+       const recentContainer = document.getElementById('recent-reports-container');
+       const paginationContainer = document.getElementById('recent-reports-pagination');
+       
+       if (page !== null) {
+         recentReportsPage = page;
+         // Only scroll if user explicitly changed page (pagination action)
+         shouldScroll = true;
+       }
+       
+       recentContainer.innerHTML = '<div class="loading-state"><div class="spinner"></div><p>Yükleniyor...</p></div>';
+       paginationContainer.style.display = 'none';
+       
+       try {
+         const personelIdParam = currentPersonnelId === 'ALL' ? 'ALL' : String(currentPersonnelId);
+         const params = new URLSearchParams({
+           months: currentMonths.toString(),
+           page: recentReportsPage.toString(),
+           limit: recentReportsPageSize.toString()
+         });
+         if (personelIdParam !== 'ALL') {
+           params.append('personel_id', personelIdParam);
+         }
+         
+         const res = await fetch(`/api/machine-fault/recent-reports?${params.toString()}`);
+         if (!res.ok) throw new Error('Son bildirimler yüklenemedi');
+         
+         const result = await res.json();
+         if (!result.success) throw new Error(result.error || 'Veri alınamadı');
+         
+         recentReportsPagination = result.pagination;
+         
+         // Update header
+         updateRecentReportsHeader();
+         
+         // Render reports
+         renderRecentReports(result.data || []);
+         
+         // Render pagination
+         renderRecentReportsPagination();
+         
+         // Only scroll if explicitly requested (user action like pagination)
+         if (shouldScroll) {
+           recentContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+         }
+         
+       } catch (err) {
+         console.error('Recent reports load error:', err);
+         recentContainer.innerHTML = `
+           <div class="empty-state">
+             <div class="empty-state-icon">⚠️</div>
+             <p>Son bildirimler yüklenemedi.</p>
+           </div>
+         `;
+         showToast('Son bildirimler yüklenirken hata oluştu', 'error');
+       }
+     }
+     
+     // Update recent reports header with pagination info
+     function updateRecentReportsHeader() {
+       const header = document.getElementById('recent-reports-header');
+       if (!recentReportsPagination) {
+         header.textContent = 'Son Bildirimler';
+         return;
+       }
+       
+       const { page, totalPages, total } = recentReportsPagination;
+       if (totalPages > 1) {
+         header.textContent = `Son Bildirimler (Sayfa ${page}/${totalPages})`;
+       } else {
+         header.textContent = `Son Bildirimler (Toplam: ${total})`;
+       }
+     }
+     
+     // Render pagination controls for recent reports
+     function renderRecentReportsPagination() {
+       const container = document.getElementById('recent-reports-pagination');
+       
+       if (!recentReportsPagination || recentReportsPagination.totalPages <= 1) {
+         container.style.display = 'none';
+         return;
+       }
+       
+       container.style.display = 'block';
+       const { page, totalPages } = recentReportsPagination;
+       
+       let html = '<div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap;">';
+       
+       // Previous button
+       html += `<button class="pagination-btn" ${page === 1 ? 'disabled' : ''} onclick="loadRecentReports(${page - 1})" style="min-width: 80px;">‹ Önceki</button>`;
+       
+       // Page numbers
+       for (let i = 1; i <= totalPages; i++) {
+         if (i === 1 || i === totalPages || (i >= page - 1 && i <= page + 1)) {
+           html += `<button class="pagination-btn ${i === page ? 'active' : ''}" onclick="loadRecentReports(${i})">${i}</button>`;
+         } else if (i === page - 2 || i === page + 2) {
+           html += `<span style="color: var(--text-secondary); padding: 0 4px;">...</span>`;
+         }
+       }
+       
+       // Next button
+       html += `<button class="pagination-btn" ${page === totalPages ? 'disabled' : ''} onclick="loadRecentReports(${page + 1})" style="min-width: 80px;">Sonraki ›</button>`;
+       
+       html += '</div>';
+       container.innerHTML = html;
+     }
+
+     // Render machine breakdown table
+     function renderMachineBreakdown(breakdown) {
+       const container = document.getElementById('machine-breakdown-container');
+       
+       if (!breakdown || breakdown.length === 0) {
+         container.innerHTML = `
+           <div class="empty-state" style="padding: 40px;">
+             <div class="empty-state-icon">📊</div>
+             <p>Makine verisi bulunamadı.</p>
+           </div>
+         `;
+         return;
+       }
+       
+       const table = document.createElement('table');
+       table.innerHTML = `
+         <thead>
+           <tr>
+             <th>Makine Adı</th>
+             <th>Bildirim Sayısı</th>
+             <th>Son Bildirim Tarihi</th>
+           </tr>
+         </thead>
+         <tbody>
+           ${breakdown.map(machine => `
+             <tr>
+               <td>${machine.makine_adi || '-'}</td>
+               <td style="text-align: center; font-weight: 600; color: var(--accent);">${machine.report_count || 0}</td>
+               <td>${machine.last_report_at ? formatDate(machine.last_report_at) : '-'}</td>
+             </tr>
+           `).join('')}
+         </tbody>
+       `;
+       
+       container.innerHTML = '';
+       container.appendChild(table);
+     }
+
+     // Render recent reports list
+     function renderRecentReports(reports) {
+       const container = document.getElementById('recent-reports-container');
+       
+       if (!reports || reports.length === 0) {
+         container.innerHTML = `
+           <div class="empty-state" style="padding: 40px;">
+             <div class="empty-state-icon">📋</div>
+             <p>Son bildirim bulunamadı.</p>
+           </div>
+         `;
+         return;
+       }
+       
+       const reportsHTML = reports.map(report => {
+         const statusClass = getStatusClass(report.status);
+         const priorityClass = getPriorityClass(report.priority);
+         const dateStr = formatDate(report.created_at);
+         const reportId = `report-${report.report_id}`;
+         
+         return `
+           <div style="background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; margin-bottom: 12px; transition: all 0.2s ease;">
+             <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; flex-wrap: wrap;">
+               <div style="flex: 1; min-width: 200px;">
+                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;">
+                   <span style="font-size: 0.85rem; color: var(--text-secondary);">${dateStr}</span>
+                   <span class="status-badge ${statusClass}">${report.status}</span>
+                   <span class="priority-badge ${priorityClass}">${report.priority}</span>
+                 </div>
+                 <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 6px;">${report.title || '-'}</div>
+                 <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                   <span>👤 ${report.personel_ad_soyad || '-'}</span>
+                   <span style="margin: 0 10px;">•</span>
+                   <span>⚙️ ${report.makine_adi || '-'}</span>
+                   <span style="margin: 0 10px;">•</span>
+                   <span>🔧 ${report.fault_type || '-'}</span>
+                 </div>
+                 <div id="${reportId}-description" style="display: none; margin-top: 10px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; font-size: 0.9rem; color: var(--text-secondary); white-space: pre-wrap; word-wrap: break-word;">
+                   ${report.description || 'Açıklama yok.'}
+                 </div>
+               </div>
+               <div>
+                 <button class="btn-detail" onclick="toggleDescription('${reportId}')" style="margin-right: 8px;">
+                   <span id="${reportId}-toggle">📖 Açıklama</span>
+                 </button>
+                 <button class="btn-detail" onclick="showDetailFromRecent(${report.report_id})">
+                   Detay
+                 </button>
+               </div>
+             </div>
+           </div>
+         `;
+       }).join('');
+       
+       container.innerHTML = reportsHTML;
+     }
+
+     // Toggle description visibility
+     function toggleDescription(reportId) {
+       const descEl = document.getElementById(`${reportId}-description`);
+       const toggleEl = document.getElementById(`${reportId}-toggle`);
+       
+       if (descEl.style.display === 'none') {
+         descEl.style.display = 'block';
+         toggleEl.textContent = '📖 Gizle';
+       } else {
+         descEl.style.display = 'none';
+         toggleEl.textContent = '📖 Açıklama';
+       }
+     }
+
+     // Show detail from recent reports (fetch full report data)
+     function showDetailFromRecent(reportId) {
+       // showDetail already handles fetching if report not found
+       showDetail(reportId);
+     }
+
+    // Show detail modal
+    async function showDetail(reportId) {
+      let report = allReports.find(r => r.report_id === reportId);
+      
+      // If not found in current page, fetch from detail endpoint
+      if (!report) {
+        try {
+          const res = await fetch(`/api/admin/machine-fault-reports/${reportId}`);
+          if (res.ok) {
+            const result = await res.json();
+            if (result.success && result.data) {
+              report = result.data;
+            }
+          }
+        } catch (err) {
+          console.error('Fetch report error:', err);
+        }
+      }
+      
+      if (!report) {
+        showToast('Bildirim bulunamadı', 'error');
+        return;
+      }
+
+      currentReportId = reportId;
+      const modalBody = document.getElementById('modal-body');
+      const statusSelect = document.getElementById('status-update-select');
+      
+      statusSelect.value = report.status;
+      
+      const dateStr = formatDate(report.created_at);
+      const updatedStr = report.updated_at ? formatDate(report.updated_at) : '-';
+      const statusClass = getStatusClass(report.status);
+      const priorityClass = getPriorityClass(report.priority);
+      
+      // Build photo HTML if photo_url exists
+      let photoHTML = '';
+      if (report.photo_url) {
+        const photoUrl = report.photo_url.startsWith('/') 
+          ? report.photo_url 
+          : `/${report.photo_url}`;
+        photoHTML = `
+          <div class="detail-group">
+            <div class="detail-label">Fotoğraf</div>
+            <div class="detail-value">
+              <img src="${photoUrl}" alt="Arıza Fotoğrafı" style="max-width: 100%; max-height: 320px; border-radius: 8px; border: 1px solid var(--border-color); object-fit: contain; background: rgba(0, 0, 0, 0.2);" />
+            </div>
+          </div>
+        `;
+      }
+
+      modalBody.innerHTML = `
+        <div class="detail-group">
+          <div class="detail-label">Başlık</div>
+          <div class="detail-value">${report.title}</div>
+        </div>
+        <div class="detail-group">
+          <div class="detail-label">Açıklama</div>
+          <div class="detail-value detail-description">${report.description || '-'}</div>
+        </div>
+        ${photoHTML}
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+          <div class="detail-group">
+            <div class="detail-label">Makine</div>
+            <div class="detail-value">${report.makine_adi || '-'} (${report.makine_turu || '-'})</div>
+          </div>
+          <div class="detail-group">
+            <div class="detail-label">Arıza Tipi</div>
+            <div class="detail-value">${report.fault_type}</div>
+          </div>
+          <div class="detail-group">
+            <div class="detail-label">Personel</div>
+            <div class="detail-value">${report.personel_adsoyad || '-'}</div>
+          </div>
+          <div class="detail-group">
+            <div class="detail-label">Öncelik</div>
+            <div class="detail-value">
+              <span class="priority-badge ${priorityClass}">${report.priority}</span>
+            </div>
+          </div>
+          <div class="detail-group">
+            <div class="detail-label">Durum</div>
+            <div class="detail-value">
+              <span class="status-badge ${statusClass}">${report.status}</span>
+            </div>
+          </div>
+          <div class="detail-group">
+            <div class="detail-label">Oluşturulma Tarihi</div>
+            <div class="detail-value">${dateStr}</div>
+          </div>
+          <div class="detail-group">
+            <div class="detail-label">Güncellenme Tarihi</div>
+            <div class="detail-value">${updatedStr}</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('detail-modal').classList.add('show');
+    }
+
+    // Close modal
+    function closeModal() {
+      document.getElementById('detail-modal').classList.remove('show');
+      currentReportId = null;
+    }
+
+    // Update status
+    async function updateStatus() {
+      if (!currentReportId) return;
+
+      const statusSelect = document.getElementById('status-update-select');
+      const saveBtn = document.getElementById('btn-save-status');
+      const newStatus = statusSelect.value;
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Kaydediliyor...';
+
+      try {
+        const res = await fetch(`/api/admin/machine-fault-reports/${currentReportId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Durum güncellenemedi');
+        }
+
+        showToast('✅ Durum başarıyla güncellendi');
+        
+        // Update local data
+        const report = allReports.find(r => r.report_id === currentReportId);
+        if (report) {
+          report.status = newStatus;
+          report.updated_at = new Date().toISOString();
+        }
+        
+        // Reload table
+        await loadReports(currentPage);
+        
+        // Reload unresolved count banner
+        await loadUnresolvedCount();
+        
+        // Update modal - fetch fresh data
+        await showDetail(currentReportId);
+        
+      } catch (err) {
+        console.error('Status update error:', err);
+        showToast(err.message || 'Durum güncellenirken hata oluştu', 'error');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Kaydet';
+      }
+    }
+
+    // Close modal on outside click
+    document.getElementById('detail-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // Filter change handlers (reset to page 1)
+    document.getElementById('filter-status').addEventListener('change', () => {
+      currentPage = 1;
+      loadReports(1);
+    });
+    document.getElementById('filter-priority').addEventListener('change', () => {
+      currentPage = 1;
+      loadReports(1);
+    });
+
+     // Load unresolved count and show banner
+     async function loadUnresolvedCount() {
+       try {
+         const res = await fetch('/api/machine-fault-reports/unresolved-count');
+         const data = await res.json();
+         
+         if (data.success) {
+           const count = data.unresolvedCount || 0;
+           const banner = document.getElementById('unresolved-banner');
+           const bannerText = document.getElementById('unresolved-banner-text');
+           
+           if (count > 0) {
+             bannerText.textContent = `Çözülmemiş makine bildirimi var: ${count}`;
+             banner.classList.add('show');
+           } else {
+             banner.classList.remove('show');
+           }
+         }
+       } catch (error) {
+         console.error('Unresolved count load error:', error);
+       }
+     }
+
+     // Scroll to reports section
+     function scrollToReports() {
+       // Try to find the reports table section
+       const reportsSection = document.getElementById('reports-container') ||
+                              document.querySelector('.table-card') ||
+                              document.querySelector('.table-container') ||
+                              document.querySelector('table');
+       if (reportsSection) {
+         reportsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+       } else {
+         // Fallback: scroll to filters section
+         const filtersSection = document.querySelector('.filters-section');
+         if (filtersSection) {
+           filtersSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+         }
+       }
+     }
+
+     // Make scrollToReports available globally
+     window.scrollToReports = scrollToReports;
+
+     // Initialize on page load
+     document.addEventListener('DOMContentLoaded', () => {
+       // Ensure page starts at top
+       window.scrollTo(0, 0);
+       
+       loadUnresolvedCount();
+       loadReports(1);
+       loadDistributionChart();
+       loadTypeDistributionChart();
+       loadPairingCharts();
+       loadPersonnelSummary();
+       loadBreakdown();
+       
+       // Event listeners for filters
+       document.getElementById('time-range-select').addEventListener('change', (e) => {
+         currentMonths = parseInt(e.target.value, 10);
+         recentReportsPage = 1; // Reset to page 1 when time range changes
+         loadPersonnelSummary();
+         loadBreakdown();
+         loadPairingCharts(); // Reload pairing charts when range changes
+       });
+       
+       document.getElementById('personnel-select').addEventListener('change', (e) => {
+         // Update state immediately from select value
+         currentPersonnelId = e.target.value;
+         
+         // Reset recent reports to page 1 when filter changes
+         recentReportsPage = 1;
+         
+         // Reload summary to get fresh data and update KPIs
+         // Note: loadPersonnelSummary will preserve the selection we just set
+         loadPersonnelSummary().then(result => {
+           if (result && result.success) {
+             // KPIs are already updated in loadPersonnelSummary, but ensure sync
+             updateKPIs(result, currentPersonnelId);
+           }
+         }).catch(err => {
+           console.error('Summary reload error:', err);
+           // Even if summary fails, try to load breakdown with current selection
+           loadBreakdown();
+         });
+         
+         // Load breakdown with new filter (don't wait for summary)
+         loadBreakdown();
+       });
+       
+     });
+  </script>
+</body>
+</html>
